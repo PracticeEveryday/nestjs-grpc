@@ -10,7 +10,7 @@
   "monorepo": true,
   "root": "apps/monorepo-nestjs-typeorm",
   "projects": {
-    "api": {
+    "@app/api": {
       "type": "application",
       "root": "apps/api",
       "entryFile": "main",
