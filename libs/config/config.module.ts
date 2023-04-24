@@ -3,7 +3,7 @@ import { ConfigModule } from '@nestjs/config';
 import Joi from 'joi';
 
 const configOption = {
-  envFilePath: [`config/.env.${process.env['NODE_ENV'] || 'dev'}`],
+  envFilePath: [`.env.${process.env['NODE_ENV'] || 'local'}`],
   isGlobal: true,
   validationSchema: Joi.object({
     NODE_ENV: Joi.string()
