@@ -1,14 +1,16 @@
 import { NestFactory } from '@nestjs/core';
-import { ApiModule } from './api.module';
+import { UserModule } from './user.module';
 import { ConfigService } from '@nestjs/config';
 import { PrismaService } from '@app/prisma';
 
 async function bootstrap() {
-  const app = await NestFactory.create(ApiModule);
+  const app = await NestFactory.create(UserModule);
   const configService = app.get(ConfigService);
   const PORT = configService.getOrThrow('PORT');
+
   const prismaService = app.get(PrismaService);
   prismaService.enableShutdownHook(app);
+
   if (PORT && typeof PORT === 'number') {
     await app.listen(PORT);
 
