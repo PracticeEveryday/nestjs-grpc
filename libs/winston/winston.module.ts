@@ -4,6 +4,7 @@ import { Module } from '@nestjs/common';
 import { WinstonModule, utilities as nestWinstonModuleUtilities } from 'nest-winston';
 import winston from 'winston';
 import DailyRotateFile from 'winston-daily-rotate-file';
+import { CustomLoggerService } from './logger.service';
 
 const appType = process.env['appType'];
 const dailyOptions = (level: string) => {
@@ -44,6 +45,7 @@ const winstonOptions = {
 
 @Module({
     imports: [WinstonModule.forRoot(winstonOptions)],
-    exports: [WinstonModule],
+    providers: [CustomLoggerService],
+    exports: [WinstonModule, CustomLoggerService],
 })
 export class CustomWinstonModule {}

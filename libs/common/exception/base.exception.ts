@@ -12,6 +12,9 @@ export class BaseException extends HttpException {
     @ApiProperty({ description: '에러 메시지' })
     override message: string;
 
+    @ApiProperty({ description: '에러 수준' })
+    level: 'warn' | 'error';
+
     @Exclude()
     raw: Error;
 
