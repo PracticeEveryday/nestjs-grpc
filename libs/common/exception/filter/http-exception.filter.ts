@@ -1,15 +1,18 @@
-import { ArgumentsHost, Catch, ExceptionFilter, HttpException } from '@nestjs/common';
-import { HttpAdapterHost } from '@nestjs/core';
-import { UnknownException } from './internal-server.exception';
-import { BaseException } from './base.exception';
+import { ArgumentsHost, Catch, ExceptionFilter, HttpException, HttpStatus } from '@nestjs/common';
+import { Response } from 'express';
+import { UnknownException } from '../internal-server.exception';
+import { BaseException } from '../base.exception';
 import { CustomLoggerService } from 'libs/winston/logger.service';
-import { ErrorLevel } from '../enum/basic.enum';
+import { ErrorLevel } from '../../enum/basic.enum';
 
 @Catch()
 export class HttpExceptionFilter implements ExceptionFilter {
-    constructor(private readonly httpAdapterHost: HttpAdapterHost, private readonly loggerService: CustomLoggerService) {}
+    constructor(private readonly loggerService: CustomLoggerService) {}
 
     catch(error: Error, host: ArgumentsHost) {
+        const ctx = host.switchToHttp();
+        const res: Response = ctx.getResponse<Response>();
+
         const exception = (() => {
             if (error instanceof BaseException) {
                 return error;
@@ -19,21 +22,26 @@ export class HttpExceptionFilter implements ExceptionFilter {
                     title: error.name,
                     message: error.message,
                     raw: error,
+                    level: ErrorLevel.WARN,
                 });
             } else {
                 return new UnknownException({
+                    statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
                     title: error.name,
                     message: error.message,
                     raw: error,
+                    level: ErrorLevel.ERROR,
                 });
             }
         })();
+
         if (exception.level === ErrorLevel.WARN) {
             this.loggerService.warn(HttpExceptionFilter.name, exception);
         } else {
             this.loggerService.error(HttpExceptionFilter.name, exception);
         }
+        console.log(error);
 
-        this.httpAdapterHost.httpAdapter.reply((() => host.switchToHttp().getResponse())(), exception.getResponse(), exception.getStatus());
+        res.status(exception.getStatus()).json(exception);
     }
 }

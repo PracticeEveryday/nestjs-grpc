@@ -16,10 +16,3 @@ export enum Method {
     DELETE = 'DELETE',
     PATCH = 'PATCH',
 }
-
-export enum ErrorProps {
-    STATUSCODE = 'statusCode',
-    title = 'title',
-    message = 'message',
-    raw = 'raw',
-}

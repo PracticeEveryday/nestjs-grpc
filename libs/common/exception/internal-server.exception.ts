@@ -4,12 +4,13 @@ import { ApiProperty } from '@nestjs/swagger';
 import { ErrorLevel } from '../enum/basic.enum';
 
 export class UnknownException extends BaseException {
-    constructor(properties: Pick<BaseException, 'title' | 'message' | 'raw'>) {
+    constructor(properties: Pick<BaseException, 'statusCode' | 'title' | 'level' | 'message' | 'raw'>) {
         super({
             statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
             title: properties.title,
             message: properties.message,
             raw: properties.raw,
+            level: properties.level,
         });
     }
 
