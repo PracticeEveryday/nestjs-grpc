@@ -1,10 +1,11 @@
 import { applyDecorators, Controller } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
+import { RouterCategory } from '../enum/basic.enum';
 
 type RouterProps = {
     path?: string;
     tag: {
-        category?: 'public' | 'private' | 'virtual';
+        category?: RouterCategory;
         title: string;
     };
 };
@@ -18,11 +19,11 @@ export const RouteTable = ({ path = '', tag }: RouterProps) => {
         ApiTags(
             `${(() => {
                 switch (tag?.category) {
-                    case 'private':
+                    case RouterCategory.PRIVATE:
                         return '[비공개]';
-                    case 'public':
+                    case RouterCategory.PUBLIC:
                         return '[공개]';
-                    case 'virtual':
+                    case RouterCategory.VIRTURE:
                         return '[개발용]';
                     default:
                         return '';

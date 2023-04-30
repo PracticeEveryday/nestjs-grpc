@@ -1,6 +1,7 @@
 import { HttpException } from '@nestjs/common';
 import { ApiProperty } from '@nestjs/swagger';
 import { Exclude } from 'class-transformer';
+import { ErrorLevel, ErrorProps } from '../enum/basic.enum';
 
 export class BaseException extends HttpException {
     @ApiProperty({ description: '응답코드', example: 400 })
@@ -12,13 +13,13 @@ export class BaseException extends HttpException {
     @ApiProperty({ description: '에러 메시지', example: '비밀번호를 다시 확인해주세요' })
     override message: string;
 
-    @ApiProperty({ description: '에러 수준', example: 'warn' })
-    level: 'warn' | 'error';
+    @ApiProperty({ description: '에러 수준', example: ErrorLevel.ERROR })
+    level: ErrorLevel;
 
     @Exclude()
     raw: Error;
 
-    constructor(properties: Pick<BaseException, 'statusCode' | 'title' | 'message' | 'raw'>) {
+    constructor(properties: Pick<BaseException, ErrorProps>) {
         super(properties.message, properties.statusCode);
     }
 }
