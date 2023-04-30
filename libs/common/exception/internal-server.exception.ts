@@ -1,6 +1,7 @@
 import { HttpStatus } from '@nestjs/common';
 import { BaseException } from './base.exception';
 import { ApiProperty } from '@nestjs/swagger';
+import { ErrorLevel } from '../enum/basic.enum';
 
 export class UnknownException extends BaseException {
     constructor(properties: Pick<BaseException, 'title' | 'message' | 'raw'>) {
@@ -21,6 +22,6 @@ export class UnknownException extends BaseException {
     @ApiProperty({ description: '에러 메시지', example: '개발자에게 문의해주세요' })
     override message: string;
 
-    @ApiProperty({ description: '에러 메시지', example: 'error' })
-    override level: 'error' | 'warn';
+    @ApiProperty({ description: '에러 메시지', example: ErrorLevel.ERROR })
+    override level: ErrorLevel;
 }

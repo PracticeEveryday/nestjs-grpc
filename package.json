@@ -7,7 +7,10 @@
     "license": "UNLICENSED",
     "scripts": {
         "migrate": "npx prisma migrate dev",
-        "studio": "npx prisma studio",
+        "studio:local": "dotenv -e .env.local npx prisma studio",
+        "studio:dev": "dotenv -e .env.dev npx prisma studio",
+        "studio:release": "dotenv -e .env.release npx prisma studio",
+        "studio:prod": "dotenv -e .env.prod npx prisma studio",
         "build": "nest build",
         "format": "prettier --write \"apps/**/*.ts\" \"libs/**/*.ts\"",
         "start": "nest start",

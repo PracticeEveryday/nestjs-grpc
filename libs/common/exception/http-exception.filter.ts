@@ -3,6 +3,7 @@ import { HttpAdapterHost } from '@nestjs/core';
 import { UnknownException } from './internal-server.exception';
 import { BaseException } from './base.exception';
 import { CustomLoggerService } from 'libs/winston/logger.service';
+import { ErrorLevel } from '../enum/basic.enum';
 
 @Catch()
 export class HttpExceptionFilter implements ExceptionFilter {
@@ -27,7 +28,7 @@ export class HttpExceptionFilter implements ExceptionFilter {
                 });
             }
         })();
-        if (exception.level === 'warn') {
+        if (exception.level === ErrorLevel.WARN) {
             this.loggerService.warn(HttpExceptionFilter.name, exception);
         } else {
             this.loggerService.error(HttpExceptionFilter.name, exception);

@@ -12,10 +12,11 @@ import {
 import { BaseException } from '../exception/base.exception';
 import { UnknownException } from '../exception/internal-server.exception';
 import { UnAuthoraizedException } from '../exception/unAuthoraized.exception';
+import { Method } from '../enum/basic.enum';
 
 export type RouteProps<ResponseBody = any> = {
     request: {
-        method: 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
+        method: Method;
         path?: string | undefined;
         headers?: string[] | undefined;
     };
@@ -72,19 +73,19 @@ export function Route({ summary, description, request, response }: RouteProps) {
 
     let methodDecorator: (path?: string | string[]) => MethodDecorator;
     switch (request.method) {
-        case 'GET':
+        case Method.GET:
             methodDecorator = Get;
             break;
-        case 'POST':
+        case Method.POST:
             methodDecorator = Post;
             break;
-        case 'PUT':
+        case Method.PUT:
             methodDecorator = Put;
             break;
-        case 'PATCH':
+        case Method.PATCH:
             methodDecorator = Patch;
             break;
-        case 'DELETE':
+        case Method.DELETE:
             methodDecorator = Delete;
             break;
     }
