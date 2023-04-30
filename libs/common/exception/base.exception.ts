@@ -1,7 +1,7 @@
 import { HttpException } from '@nestjs/common';
 import { ApiProperty } from '@nestjs/swagger';
 import { Exclude } from 'class-transformer';
-import { ErrorLevel, ErrorProps } from '../enum/basic.enum';
+import { ErrorLevel } from '../enum/basic.enum';
 
 export class BaseException extends HttpException {
     @ApiProperty({ description: '응답코드', example: 400 })
@@ -19,7 +19,10 @@ export class BaseException extends HttpException {
     @Exclude()
     raw: Error;
 
-    constructor(properties: Pick<BaseException, ErrorProps>) {
+    constructor(properties: Pick<BaseException, 'statusCode' | 'title' | 'level' | 'message' | 'raw'>) {
         super(properties.message, properties.statusCode);
+        this.title = properties.title;
+        this.message = properties.message;
+        this.level = properties.level;
     }
 }

@@ -3,12 +3,13 @@ import { BaseException } from './base.exception';
 import { ApiProperty } from '@nestjs/swagger';
 
 export class UnAuthoraizedException extends BaseException {
-    constructor(properties: Pick<BaseException, 'title' | 'message' | 'raw'>) {
+    constructor(properties: Pick<BaseException, 'statusCode' | 'title' | 'level' | 'message' | 'raw'>) {
         super({
             statusCode: HttpStatus.UNAUTHORIZED,
             title: properties.title,
             message: properties.message,
             raw: properties.raw,
+            level: properties.level,
         });
     }
     @ApiProperty({ description: '응답코드', example: 401 })
