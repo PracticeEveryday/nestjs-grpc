@@ -8,6 +8,7 @@
     "scripts": {
         "migrate": "dotenv -e .env.local npx prisma migrate dev",
         "deploy": "dotenv -e .env.local npx prisma migrate deploy",
+        "generate": "dotenv -e .env.local npx prisma generate",
         "studio:local": "dotenv -e .env.local npx prisma studio",
         "studio:dev": "dotenv -e .env.dev npx prisma studio",
         "studio:release": "dotenv -e .env.release npx prisma studio",
